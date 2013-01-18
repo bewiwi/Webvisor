@@ -48,7 +48,7 @@ function displayParam(command,param,hostId,vmId)
             input.type = "text";
             input.value = param[i].default ;
         }
-        cellElement.appendChild(input)
+        cellElement.appendChild(input);
         row.appendChild(cellElement);
         
         tbo.appendChild(row);
@@ -74,7 +74,7 @@ function displayParam(command,param,hostId,vmId)
 function sendFormAjax(form,command)
 {
     var img = document.createElement('img');
-    img.setAttribute("src","web/img/load.gif")
+    img.setAttribute("src","web/img/load.gif");
     var divTag = document.getElementById(command);
     while(divTag.firstChild){
         divTag.removeChild(divTag.firstChild);
@@ -102,7 +102,7 @@ function sendFormAjax(form,command)
 function exec(command,param,hostId,vmId)
 {
     var img = document.createElement('img');
-    img.setAttribute("src","web/img/load.gif")
+    img.setAttribute("src","web/img/load.gif");
     var divTag = document.getElementById(command);
     divTag.appendChild(img);
     
@@ -156,10 +156,10 @@ function displayAjaxFunction(el,data)
              el.innerHTML = "Error ajax request";
         },
         beforeSend: function(){
-                $(el).addClass('show_loading_in_right')
+                $(el).addClass('show_loading_in_right');
         },
         complete: function(){
-                    $(el).removeClass('show_loading_in_right')
+                    $(el).removeClass('show_loading_in_right');
         }
     });
 }
