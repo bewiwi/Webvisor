@@ -154,6 +154,12 @@ function displayAjaxFunction(el,data)
         },
         error: function(jqXHR, textStatus, errorThrown) {
              el.innerHTML = "Error ajax request";
+        },
+        beforeSend: function(){
+                $(el).addClass('show_loading_in_right')
+        },
+        complete: function(){
+                    $(el).removeClass('show_loading_in_right')
         }
     });
 }

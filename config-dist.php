@@ -3,9 +3,9 @@ $hypervisors=array();
 
 $server = array(
     'driver' => 'esxManager',
-    'name' => 'BibanetEsx',
+    'name' => 'hypervisor1',
     'parameter' => array(
-            'host' => 'vm.bibabox.fr',
+            'host' => 'hypervisor1.mondomain.com',
             'user' => 'root',
             'key' => './keys/id_rsa',
         )

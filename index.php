@@ -43,12 +43,7 @@ include('include.php');
             <div class="row-fluid">
                 <div class="span3 bs-docs-sidebar" id='Menu'>
                      <!--Sidebar content-->
-                    <?php //displayMenu(); ?>
-                    <script type="text/javascript" >
-                        var data= {actionajax : 'displayAjaxFunction', phpfunction : 'displayMenu'};
-                        var el = document.getElementById('Menu');
-                        displayAjaxFunction(el,data);
-                    </script>
+                    <?php displayAjaxFunctionTiming('displayMenu',2000); ?>
                 </div>
                 <div class="span9">
                     <!--Body content-->

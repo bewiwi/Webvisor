@@ -4,15 +4,23 @@ function displayVMInfo($hostId,$vmId)
 ?>
 <div class="row-fluid">
     <div class="span6">
-        <?php displayVMParameter($hostId,$vmId); ?>
+        <?php 
+        //displayVMParameter($hostId,$vmId); 
+        displayAjaxFunctionTiming('displayVMParameter',2000,array('hostid' => $hostId,'vmid'=>$vmId));
+        ?>
     </div>
     <div class="span6">
-        <?php displayVMSnapshotInfo($hostId,$vmId); ?>
+        <?php 
+        //displayVMSnapshotInfo($hostId,$vmId);
+        displayAjaxFunctionTiming('displayVMSnapshotInfo',2000,array('hostid' => $hostId,'vmid'=>$vmId));
+        ?>
     </div>
 </div>
 <div class="row-fluid">
     <div class="span6">
-        <?php displayVMAction($hostId,$vmId) ?>
+        <?php
+        displayVMAction($hostId,$vmId)
+        ?>
     </div>
 </div>
 <?php    

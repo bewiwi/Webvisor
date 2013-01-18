@@ -7,3 +7,9 @@ caption {
 th {
  text-align : left;   
 }
+
+.show_loading_in_right {
+  background-image: url('../img/load2.gif');
+  background-repeat:no-repeat;
+  background-position:right top;
+}

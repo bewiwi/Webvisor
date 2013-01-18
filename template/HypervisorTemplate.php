@@ -1,6 +1,16 @@
 <?php
 function displayHypervisorInfo($hostId)
 {
+   
+    //displayHypervisorParameter($hostId);
+    displayAjaxFunctionTiming('displayHypervisorParameter',2000,array('hostid' => $hostId));
+    //displayHypervisorVMs($hostId);
+    displayAjaxFunctionTiming('displayHypervisorVMs',2000,array('hostid' => $hostId));
+    
+}
+
+function displayHypervisorParameter($hostId)
+{
     global $hypervisors;
     $hyper = $hypervisors[$hostId];
     $server = getHypervisor($hyper['driver'],$hyper['parameter']);
@@ -16,8 +26,6 @@ function displayHypervisorInfo($hostId)
         </tr>
     </table>
     <?php
-    displayHypervisorVMs($hostId);
-    
 }
 
 function displayHypervisorVMs($hyperId)

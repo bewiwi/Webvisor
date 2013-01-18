@@ -6,6 +6,7 @@ if($hostId !== false && $vmId === false )
 elseif($hostId !== false && $vmId !== false)
 {
     displayVMInfo($hostId,$vmId);
+
 }
 else
 {
