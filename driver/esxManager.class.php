@@ -12,11 +12,6 @@ class esxManager
   private $sshConnexion;
 
   /**
-   * @var sfLoggerInterface
-   */
-  private $logger = null;
-
-  /**
    * @param $sshConnexion
    */
   public function __construct($param)
@@ -40,7 +35,6 @@ class esxManager
 
   /**
    * Renvoie la liste des VM
-   *
    * @return array
    * Id obligatoire
    */
@@ -56,9 +50,7 @@ class esxManager
         $firstLine = false;
         continue;
       }
-      #$matches  = preg_split("/\s+/", $line);
       preg_match("/^([0-9]+)\s+(.*)\s+\[(.*)\]\s+(.*\.vmx)\s+(.*)\s+.*$/",$line,$matches);
-      #var_dump($matches);
       $vms[] = array(
         'id'         => $matches[1],
         'name'       => $matches[2],
@@ -105,9 +97,7 @@ class esxManager
 
   /**
    * Renvoie les snapshots disponibles d'une VM
-   *
    * @param $vm int ID de la VM
-   *
    * @return array
    */
   public function vmListSnapshots($vm)
@@ -164,8 +154,6 @@ class esxManager
     {
         $snapshot[$tmpSnap['id']] = $tmpSnap;
     }
-    
-    
     return $snapshot;
   }
 
@@ -211,9 +199,7 @@ class esxManager
 
   /**
    * Démarre une VM
-   *
    * @param $vm int ID de la VM
-   *
    * @return void
    */
   public function startVM($vm)
@@ -223,10 +209,8 @@ class esxManager
 
   /**
    * Arrête une VM
-   *
    * @param string $vm   int ID de la VM
    * @param bool   $sync Arrêt synchrone ou pas
-   *
    * @throws RuntimeException
    * @return void
    */
@@ -264,9 +248,6 @@ class esxManager
 
   /**
    * Force l'arret d'une VM
-   *
-   * @param $vm int ID de la VM
-   *
    * @return void
    */
   public function forcePowerOff($vm)
@@ -276,11 +257,9 @@ class esxManager
 
   /**
    * Restaure le snapshot d'une VM
-   *
    * @param $vm              int ID de la VM
    * @param $snapshot        ID du snapshot
    * @param $suppressPowerOn bool ID du snapshot
-   *
    * @return void
    */
   public function restoreSnapshot($vm, $snapshot, $suppressPowerOn = false)
@@ -307,7 +286,6 @@ class esxManager
    *
    * @return void
    */
-  //public function takeSnapshot($vm, $name, $desc, $saveStatu = true, $quiesced = true)
   public function takeSnapshot($vm, $param)
   {
     $saveStatu = (isset($param['save_status']) && $param['save_status'] == 'on' )?true:false;
@@ -359,9 +337,7 @@ class esxManager
 
   /**
    * Permet de savoir si une VM est présente sur cet hôte
-   *
    * @param int $vmSearch ID de la VM
-   *
    * @return boolean
    */
   public function hasVM($vmSearch)
@@ -379,10 +355,8 @@ class esxManager
 
   /**
    * Permet de savoir si une VM possède un snapshot donné
-   *
    * @param $vm int ID de la VM
    * @param $snapshotSearch
-   *
    * @return bool
    */
   public function hasSnapshot($vm, $snapshotSearch)
@@ -400,10 +374,8 @@ class esxManager
 
   /**
    * Permet de savoir si une VM possède un snapshot donné
-   *
    * @param int    $vmId ID de la VM
    * @param string $snapshotSearch
-   *
    * @throws InvalidArgumentException
    * @return array
    */
@@ -423,9 +395,7 @@ class esxManager
 
   /**
    * Permet de savoir si une VM tourne
-   *
    * @param $vm int ID de la VM
-   *
    * @return bool
    */
   public function isVMRunning($vm)
@@ -435,9 +405,7 @@ class esxManager
 
   /**
    * Permet de savoir si une VM est arrêtée complètement
-   *
    * @param $vm int ID de la VM
-   *
    * @return bool
    */
   public function isVMPoweredOff($vm)
@@ -448,11 +416,8 @@ class esxManager
 
   /**
    * Permet de récupérer l'état courant d'une VM
-   *
    * @throws LogicException
-   *
    * @param $vm int ID de la VM
-   *
    * @return string Etat de la VM ('Powered on', 'Powered off')
    */
   public function getVMState($vm)
@@ -469,11 +434,8 @@ class esxManager
 
   /**
    * Permet de récupérer l'id d'une VM par son Nom
-   *
    * @throws LogicException
-   *
    * @param $vmName string nom de la VM recherche
-   *
    * @return string Id de la VM ou false
    */
   public function getVMIdByName($vmName)
@@ -492,9 +454,7 @@ class esxManager
 
   /**
    * Permet de récupérer l'Id du snapshot courant
-   *
    * @param $vm int ID de la VM
-   *
    * @return int Id du snapshot
    */
   public function getCurrentSnapshot($vm)
@@ -506,9 +466,7 @@ class esxManager
 
   /**
    * Permet de récupérer l'Id du snapshot courant
-   *
    * @param $vm int ID de la VM
-   *
    * @return int Id du snapshot
    */
   public function getSnapshotInfo($vm)
@@ -521,9 +479,7 @@ class esxManager
 
   /**
    * Récupére l'état des VMWare tools
-   *
    * @param int $vm ID de la VM
-   *
    * @return string toolsOk/toolsOld/toolsNotInstalled/toolsNotRunning
    */
   public function getVmToolsStatus($vm)
@@ -536,9 +492,7 @@ class esxManager
 
   /**
    * Récupére l'ip de la VM si possible
-   *
    * @param $vmId int ID de la VM
-   *
    * @throws RuntimeException
    * @return string IP
    */
@@ -564,11 +518,8 @@ class esxManager
 
   /**
    * Permet d'exécuter une commande distante
-   *
    * @throws RuntimeException
-   *
    * @param $cmd string Commande shell à exécuter
-   *
    * @return array
    */
   private function remoteCmd($cmd)
@@ -584,14 +535,6 @@ class esxManager
     }
 
     return array($output, $ret);
-  }
-
-  private function log($message, $level = sfLogger::INFO)
-  {
-    if (null !== $this->logger)
-    {
-      $this->logger->log($message, $level);
-    }
   }
 
 }
