@@ -23,6 +23,17 @@ elseif (isset($_GET['vmid']))
     $vmId = $_GET['vmid'];
 }
 
+//snapId
+$snapId = false;
+if(isset($_GET['snapid']) && is_numeric($_GET['snapid']) === false)
+{
+    throw new Exception('Bad type numeric for snapid');
+}
+elseif (isset($_GET['snapid']))
+{
+    $snapId = $_GET['snapid'];
+}
+
 //action Ajax
 $actionAjax = false;
 if (isset($_GET['actionajax']))

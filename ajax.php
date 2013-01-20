@@ -8,7 +8,15 @@ if($driverCommand)
     //TODO Control des params
     $param = $_POST;
     
-    $ret = $server->$driverCommand($vmId,$param);
+    if($snapId !== false)
+    {
+        $ret = $server->$driverCommand($vmId,$snapId,$param);    
+    }
+    else
+    {    
+        $ret = $server->$driverCommand($vmId,$param);
+    }
+    
     if($ret === false)
     {
         echo 'Command Erreur';

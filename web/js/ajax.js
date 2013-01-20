@@ -1,22 +1,26 @@
-function sendCommand(command,param,hostId,vmId)
+function sendCommand(command,param,hostId,vmId,snapId)
 {
     createDiv(command);
     if( param.length !== undefined || param.length <= 0)
     {
-       displayParam(command,param,hostId,vmId);
+       displayParam(command,param,hostId,vmId,snapId);
     }
     else
     {
-        exec(command,param,hostId,vmId);
+        exec(command,param,hostId,vmId,snapId);
     }
 
 }
 
-function displayParam(command,param,hostId,vmId)
+function displayParam(command,param,hostId,vmId,snapId)
 {
     var frm = document.createElement('form');
     frm.method = 'post';
     frm.action = 'ajax.php?hostid='+hostId+'&vmid='+vmId+'&driverCommand='+command;
+    if(snapId !== undefined)
+    {
+        frm.action += '&snapid='+snapId;
+    }
     frm.onSubmit = 'return false;';
     frm.name = 'name_'+command;
     frm.id = 'id_'+command;
@@ -99,7 +103,7 @@ function sendFormAjax(form,command)
     });
 }
 
-function exec(command,param,hostId,vmId)
+function exec(command,param,hostId,vmId,snapId)
 {
     var img = document.createElement('img');
     img.setAttribute("src","web/img/load.gif");

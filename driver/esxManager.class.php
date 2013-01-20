@@ -197,6 +197,38 @@ class esxManager
         return $action;
     }
 
+    public function vmSnapshotAction($vmid)
+    {
+        $action = array(
+            'Remove' => array(
+                'function'  => 'removeSnapshot',
+                'image'     => 'delete.png',
+                'parameter' => array(
+                            array(
+                                'name' => 'name',
+                                'label' => 'Suppress Child',
+                                'type' => 'bool',
+                                'default' => false,
+                            ),
+                            ),
+                ),
+            'Restore' => array(
+                'function'  => 'restoreSnapshot',
+                'image'     => 'restore.png',
+                'parameter' => array(
+                            array(
+                                'name' => 'name',
+                                'label' => 'Suppress PowerOn',
+                                'type' => 'bool',
+                                'default' => false,
+                            ),
+                            ),
+                ),
+            ) ;
+        return $action;
+    }
+
+
   /**
    * Démarre une VM
    * @param $vm int ID de la VM

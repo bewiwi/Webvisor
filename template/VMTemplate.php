@@ -7,22 +7,18 @@ function displayVMInfo($hostId,$vmId)
         <?php 
         //displayVMParameter($hostId,$vmId); 
         displayAjaxFunctionTiming('displayVMParameter',2000,array('hostid' => $hostId,'vmid'=>$vmId));
+        displayVMAction($hostId,$vmId);
         ?>
     </div>
     <div class="span6">
-        <?php 
+        <?php
+        displayVMSnapshotJsFunction($hostId,$vmId);
         //displayVMSnapshotInfo($hostId,$vmId);
         displayAjaxFunctionTiming('displayVMSnapshotInfo',2000,array('hostid' => $hostId,'vmid'=>$vmId));
         ?>
     </div>
 </div>
-<div class="row-fluid">
-    <div class="span6">
-        <?php
-        displayVMAction($hostId,$vmId)
-        ?>
-    </div>
-</div>
+
 <?php    
 }
 
@@ -53,13 +49,35 @@ function displayVMParameter($hostId,$vmId)
 <?php
 }
 
+function displayVMSnapshotJsFunction($hostId,$vmId)
+{
+    global $hypervisors;
+    $hyper = $hypervisors[$hostId];
+    $server = getHypervisor($hyper['driver'],$hyper['parameter']);
+    $actions = $server->vmSnapshotAction($vmId);
+    
+    foreach($actions as $name => $param)
+    {
+        ?>
+           <script type="text/javascript">
+            //<![CDATA[
+            function sendSnapCommand<?php echo $name ?>(snapId)
+            {
+                var param = JSON.parse('<?php echo (isset($param['parameter']))?json_encode($param['parameter']):"{}" ?>');
+                sendCommand(<?php echo '\''.$param['function'].'\',param,\''.$hostId.'\',\''.$vmId.'\',snapId' ?>);
+            }
+            //]]>
+           </script>
+        <?php
+    }
+}
+
 function displayVMSnapshotInfo($hostId,$vmId)
 {
     global $hypervisors;
     $hyper = $hypervisors[$hostId];
     $server = getHypervisor($hyper['driver'],$hyper['parameter']);
     $snaps = $server->vmListSnapshots($vmId);
-    
     if(! count($snaps))
     {
         ?>
@@ -75,12 +93,23 @@ function displayVMSnapshotInfo($hostId,$vmId)
         return false;
     }
     
+    
     ?>
+
+    
     <table>
     <caption>Snapshot</caption>
     <thead>
             <tr>
             <?php
+            if (method_exists($server,'vmSnapshotAction'))
+            {
+                ?>
+                <td>Action</td>
+                
+                <?php
+            }
+            
             foreach (array_keys($snaps[key($snaps)]) as $key)
             {
                 if($key == 'id') continue;
@@ -97,6 +126,26 @@ function displayVMSnapshotInfo($hostId,$vmId)
                 ?>
                 <tr>
                 <?php
+                if (method_exists($server,'vmSnapshotAction'))
+                {
+                    $actions = $server->vmSnapshotAction($vmId);
+                    ?>
+                    <td>
+                    <?php
+                    foreach($actions as $name => $param)
+                    {
+                        ?>
+                        
+                        
+                        <img onClick="sendSnapCommand<?php echo $name; ?>(<?php echo $snap['id']; ?>)" src="web/img/<?php echo $param['image'] ?>" title="<?php echo $name ?>" alt="<?php echo $name ?>" />
+                        
+                        <?php
+                    }
+                    ?>
+                    </td>
+                    <?php
+                }
+                
                 foreach ($snap as $key => $value)
                 {
                     if($key == 'id') continue;
